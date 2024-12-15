@@ -1,0 +1,2 @@
+#!/bin/sh
+pacman -Sy archlinux-keyring && printf "'archlinux-keyring' updated: try pacman now\n"

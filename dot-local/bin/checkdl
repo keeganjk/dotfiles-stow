@@ -1,0 +1,5 @@
+#!/bin/sh
+source "$SHRC" || source "$HOME/.zshrc"
+source "$XDG_CONFIG_HOME/user-dirs.dirs"
+[ -z "$DOWNLOAD_DIR" ] && DOWNLOAD_DIR="$XDG_DOWNLOAD_DIR"
+find "$DOWNLOAD_DIR"

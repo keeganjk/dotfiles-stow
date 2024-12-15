@@ -1,0 +1,14 @@
+#!/bin/sh
+prompt="$(printf "$1" | cut -c -128)…"
+a="$(printf "qutebrowser
+qutebrowser --target private-window
+chromium
+firefox
+mpv
+/tmp/url" | dmenu -p "$prompt")"
+
+if [ "$a" = "/tmp/url" ]; then
+    printf "$1\n" > /tmp/url
+else
+    "$a" "$1"
+fi

@@ -1,0 +1,3 @@
+#!/bin/sh
+source "$SHRC" || source "$HOME/.zshrc"
+find "$TRASH_DIR"

@@ -1,0 +1,209 @@
+#!/bin/sh
+# Engines Update
+
+# Is it better to have _INSTANCE for all cases, or separate _SEARCH, _REDIRECT,
+# etc. where possible?
+
+# Put in custom instances URLs in format specified below
+# TODO?: Make a way to automatically fetch instances
+INVIDIOUS="https://invidious.einfachzocken.eu" # https://docs.invidious.io/instances/
+NITTER="https://nitter.esmailelbob.xyz" # https://status.d420.de/
+RIMGO="https://rimgo.totaldarkness.net" # https://rimgo.codeberg.page/
+SEARX="https://search.canoemail.net/search?q={}&safesearch=2" # https://searx.space/
+SIMPLYTRANSLATE="https://st.tokhmi.xyz" # https://simple-web.org/projects/simplytranslate.html
+TEDDIT="https://redlib.zaggy.nl" # https://codeberg.org/teddit/teddit
+WIKILESS="https://wikiless.tiekoetter.com" # https://github.com/Metastem/wikiless https://github.com/Nangjing/wikiless/blob/main/README.md
+#https://web.archive.org/web/20230317103641/https://simple-web.org/projects/simpleamazon.html
+
+GREASEMONKEY_DIR="/home/$(whoami)/.config/qutebrowser/greasemonkey"
+QUTEBROWSER_CONFIG="/home/$(whoami)/.config/qutebrowser/config.py"
+SFEEDRC="/home/$(whoami)/.sfeed/sfeedrc"
+SHELLRC="/home/$(whoami)/.zshrc"
+
+invidious_update() {
+	printf "+ Invidious: $INVIDIOUS\n\n"
+	
+	printf "[qutebrowser search engine]\n"
+	ed "$QUTEBROWSER_CONFIG" <<-EOF
+	/^INVIDIOUS_SEARCH =.*$
+	c
+	INVIDIOUS_SEARCH = "$INVIDIOUS/search?q={}"
+	.
+	p
+	wq
+	EOF
+	printf "\n"
+	
+	printf "[ytfzf alias in ~/.zshrc]\n"
+	ed "$SHELLRC" <<-EOF
+	/^alias ytfzf.*$
+	c
+	alias ytfzf='ytfzf --ii=$INVIDIOUS'
+	.
+	p
+	wq
+	EOF
+	printf "\n"
+	
+	printf "[qutebrowser greasemonkey redirect]\n"
+	INVIDIOUS=$(printf $INVIDIOUS | sed 's|^https://||')
+	ed "${GREASEMONKEY_DIR}/youtube-to-invidious.user.js" <<-EOF
+	/INVIDIOUS_REDIRECT =.*$
+	c
+	INVIDIOUS_REDIRECT = "$INVIDIOUS"
+	.
+	p
+	wq
+	EOF
+	printf "\n"
+	
+	printf "........................................\n\n"
+}
+
+nitter_update() {
+	printf "+ Nitter: $NITTER\n\n"
+
+	printf "[sfeed URL substitute]\n"
+	ed "$SFEEDRC" <<-EOF
+	/NITTER_INSTANCE =.*$
+	c
+	NITTER_INSTANCE = "$NITTER"
+	.
+	p
+	wq
+	EOF
+	printf "\n"
+
+	printf "[qutebrowser greasemonkey redirect]\n"
+	NITTER=$(printf $NITTER | sed 's|^https://||')
+	ed "${GREASEMONKEY_DIR}/twitter-to-nitter.user.js" <<-EOF
+	/^NITTER_REDIRECT =.*$
+	c
+	NITTER_REDIRECT = "$NITTER"
+	.
+	p
+	wq
+	EOF
+	printf "\n"
+	
+	printf "........................................\n\n"
+}
+
+rimgo_update() {
+	printf "+ Rimgo: $RIMGO\n\n"
+	
+	printf "[qutebrowser greasemonkey redirect]\n"
+	RIMGO=$(printf $RIMGO | sed 's|^https://||')
+	ed "${GREASEMONKEY_DIR}/imgur-to-rimgo.user.js" <<-EOF
+	/^RIMGO_REDIRECT =.*$
+	c
+	RIMGO_REDIRECT = "$RIMGO"
+	.
+	p
+	wq
+	EOF
+	printf "\n"
+	
+	printf "........................................\n\n"
+}
+
+searx_update() {
+	printf "+ SearX: $SEARX\n\n"
+	
+	printf "[qutebrowser search engine]\n"
+	ed "$QUTEBROWSER_CONFIG" <<-EOF
+	/^SEARX_SEARCH =.*$
+	c
+	SEARX_SEARCH = "$SEARX"
+	.
+	p
+	wq
+	EOF
+	printf "\n"
+
+	printf "........................................\n\n"
+}
+
+simplytranslate_update() {
+	printf "+ SimplyTranslate: $SIMPLYTRANSLATE\n\n"
+
+	printf "[qutebrowser greasemonkey redirect]\n"
+	SIMPLYTRANSLATE=$(printf $SIMPLYTRANSLATE | sed 's|^https://||')
+	ed "${GREASEMONKEY_DIR}/googletranslate-to-simplytranslate.user.js" <<-EOF
+	/^SIMPLYTRANSLATE_REDIRECT =.*$
+	c
+	SIMPLYTRANSLATE_REDIRECT = "$SIMPLYTRANSLATE"
+	.
+	p
+	wq
+	EOF
+	printf "\n"
+
+	printf "........................................\n\n"
+}
+
+teddit_update() {
+	printf "+ Teddit: $TEDDIT\n\n"
+	
+	printf "[qutebrowser search engine]\n"
+	ed "$QUTEBROWSER_CONFIG" <<-EOF
+	/^TEDDIT_SEARCH =.*$
+	c
+	TEDDIT_SEARCH = "$TEDDIT/r/all/search?q={}"
+	.
+	p
+	wq
+	EOF
+	printf "\n"
+	
+	printf "[qutebrowser greasemonkey redirect]\n"
+	TEDDIT=$(printf $TEDDIT | sed 's|^https://||')
+	ed "${GREASEMONKEY_DIR}/reddit-to-teddit.user.js" <<-EOF
+	/^TEDDIT_REDIRECT =.*$
+	c
+	TEDDIT_REDIRECT = "$TEDDIT"
+	.
+	p
+	wq
+	EOF
+	printf "\n"
+
+	printf "........................................\n\n"
+}
+
+wikiless_update() {
+	printf "+ Wikiless: $WIKILESS\n\n"
+	
+	printf "[qutebrowser search engine]\n"
+	ed "$QUTEBROWSER_CONFIG" <<-EOF
+	/^WIKILESS_SEARCH =.*$
+	c
+	WIKILESS_SEARCH = "$WIKILESS/w/index.php?lang=en&search={}&title=Special%3ASearch&fulltext=Search"
+	.
+	p
+	wq
+	EOF
+	printf "\n"
+	
+	printf "[qutebrowser greasemonkey redirect]\n"
+	WIKILESS=$(printf $WIKILESS | sed 's|^https://||')
+	ed "$GREASEMONKEY_DIR/wikipedia-to-wikiless.user.js" <<-EOF
+	/^WIKILESS_REDIRECT =.*$
+	c
+	WIKILESS_REDIRECT = "$WIKILESS"
+	.
+	p
+	wq
+	EOF
+	printf "\n"
+	
+	printf "........................................\n\n"
+}
+
+[ -n "$INVIDIOUS" ]       && invidious_update
+[ -n "$NITTER" ]          && nitter_update
+[ -n "$RIMGO" ]           && rimgo_update
+[ -n "$SEARX" ]           && searx_update
+[ -n "$SIMPLYTRANSLATE" ] && simplytranslate_update
+[ -n "$TEDDIT" ]          && teddit_update
+[ -n "$WIKILESS" ]        && wikiless_update

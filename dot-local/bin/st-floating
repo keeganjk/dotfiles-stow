@@ -1,0 +1,3 @@
+#!/bin/sh
+NAME="st-floating"
+exec st -c"$NAME" -T "$NAME" "$@" # might need to do -e and remove as passed arg

@@ -1,0 +1,83 @@
+#!/bin/sh
+# This script is to aid in installing a functional OS setup as I like.
+# It assumes that you have sudoer permissions and are in the `wheel' group
+
+# TODO: add in a variable/constant for AUR helper and install command
+# TODO: put everything into variables lest there be too much trailing
+
+# Values for certain things to be installed
+
+EXT_SRC_DIR="${HOME}/src/ext.d"
+DOTFILE_DIR="${HOME}/dot"
+
+MAKE_REPOS="
+https://git.suckless.org/dwm
+https://git.suckless.org/st
+"
+AUR_REPOS="
+https://github.com/vn971/rua # REPLACE WITH YAY
+"
+AUR_PKS="
+localsend-bin
+ttf-symbola-free
+checkupdates-with-aur
+"
+
+# Install necessary software
+sudo pacman -Syu && sudo pacman -S --needed \
+	base-devel git libxft libxinerama libx11 \ 	# Compilation
+	ttf-terminus-nerd ttf-hack-nerd \		# Fonts
+	    noto-fonts-emoji noto-fonts-extra \
+	    noto-fonts noto-fonts-cjk \
+	    adobe-source-han-serif-otc-fonts \
+	xorg xorg-xinit picom xf86-video-intel \	# Graphical essentials
+	fcitx5 fcitx5-configtool fcitx5-mozc \		# Input
+	    fcitx5-gtk fcitx5-qt \
+	pulsemixer pipewire wireplumber \ 		# Audio
+	    pipewire-pulse pipewire-alsa \
+	doas zsh \ 					# Shell
+	dmenu sxhkd stow rsync scrot xclip unzip zip \	# Utilities
+	    pdfgrep xdotool xdo hsetroot dosfstools \
+	    wget \
+	gimp inkscape nsxiv mpv neovim \ 		# Programs
+	    signal-desktop \
+	    libreoffice biber texlive texlive-binextra texlive-lang \
+	    zathura zathura-pdf-mupdf zathura-ps zathura-djvu
+
+# Install vim-plug for package management
+sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
+       https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+
+# Enabling and starting things
+systemctl --user enable --now pipewire.service
+systemctl --user enable --now pipwire-pulse.service
+
+# Change shell
+chsh -s "$(which zsh)" "$(whoami)"
+
+# Setup doas file
+printf "permit persist setenv {PATH=/usr/local/bin:/usr/local/sbin:usr/bin:/usr/sbin} :wheel\n" \
+    > /etc/doas.conf
+
+# Setup dotfiles
+mkdir -p "$DOTFILE_DIR"
+cd "$DOTFILE_DIR"
+stow .
+git init .
+
+# Install from source, incl. setup therefor
+mkdir -p "$EXTERNAL_SRC_DIR"
+
+## Programs installed with `make'
+cd "$EXTERNAL_SRC_DIR"
+for repo in $MAKE_REPOS; do
+	git clone "$repo" && cd "$(basename "${repo}")" && doas make clean install
+done
+
+## Programs installed with `makepkg' from the AUR
+cd "$EXTERNAL_SRC_DIR"
+for repo in $AUR_REPOS; do
+	git clone "$repo" && cd "$(basename "${repo}")" && makepkg -si
+done
+
+yay --sudo doas --save

@@ -1,0 +1,13 @@
+#!/bin/sh
+lines="$(wc -l "$1" | sed 's/\s.*//')"
+# make a case where specific args will give a variable to be executed for
+# certain opts
+for i in $(seq $lines); do
+	[ -n "$2" ] && $2
+	printf "(${i}/${lines}) "
+	awk -F'\t' -v l=$i 'NR==l {print $1}' "$1"
+	read r
+	awk -F'\t' -v l=$i 'NR==l {print $2}' "$1"
+	read r
+	[ -n "$3" ] && $3
+done

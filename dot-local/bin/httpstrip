@@ -1,0 +1,4 @@
+#!/bin/sh
+# consider getting rid of possible surrounding (single/double) quotation marks
+xclip -o -selection clipboard | sed 's|^\s*https\?://||; s|^'\''||; s|'\''$||' |
+    xclip -i -selection clipboard

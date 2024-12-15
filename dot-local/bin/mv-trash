@@ -1,0 +1,20 @@
+#!/bin/sh
+
+[ "$1" = "-r"     ] && shift
+[ "$1" = "-rf"    ] && shift
+[ -z "$TRASH_DIR" ] && TRASH_DIR="$HOME/.trash"
+
+if {
+
+	[ -d "$TRASH_DIR" ] && mkdir -p "$TRASH_DIR"
+	mv "$@" "$TRASH_DIR"
+
+    }; 
+
+then
+	printf "Moved to ${TRASH_DIR}\n$(ls -A "${TRASH_DIR}" | wc -l) items are currently there as of now.\n"
+
+else
+	printf "Error.\n"
+
+fi

@@ -1,0 +1,2 @@
+#!/bin/sh
+curl -s "$1" | grep rssUrl | sed 's/.*rssUrl":"//g;s/","externalId.*//g;s/",.*//g'
