@@ -1,0 +1,54 @@
+# settings
+
+(GimpGegl-gegl-color-to-alpha-config "2024-08-24 21:39:59"
+    (time 1724549999)
+    (color (color-rgba 1 1 1 1))
+    (transparency-threshold 0)
+    (opacity-threshold 1))
+(GimpGegl-gegl-color-to-alpha-config "2024-08-24 21:39:11"
+    (time 1724549951)
+    (color (color-rgba 0.50980418920516968 0.50980418920516968 0.50980418920516968 1))
+    (transparency-threshold 0)
+    (opacity-threshold 1))
+(GimpGegl-gegl-color-to-alpha-config "2024-04-21 15:53:58"
+    (time 1713729238)
+    (color (color-rgba 0.9368395209312439 0.89762473106384277 0.86233144998550415 1))
+    (transparency-threshold 0)
+    (opacity-threshold 1))
+(GimpGegl-gegl-color-to-alpha-config "2024-04-14 17:57:05"
+    (time 1713131825)
+    (color (color-rgba 0.54383498430252075 0.49677985906600952 0.44972550868988037 1))
+    (transparency-threshold 0)
+    (opacity-threshold 1))
+(GimpGegl-gegl-color-to-alpha-config "2024-04-14 17:32:18"
+    (time 1713130338)
+    (color (color-rgba 0.49198335409164429 0.45277112722396851 0.41355937719345093 1))
+    (transparency-threshold 0)
+    (opacity-threshold 1))
+(GimpGegl-gegl-color-to-alpha-config "2024-04-07 21:29:20"
+    (time 1712539760)
+    (color (color-rgba 1 0 0 1))
+    (transparency-threshold 0)
+    (opacity-threshold 0.44400000000000001))
+(GimpGegl-gegl-color-to-alpha-config "2024-04-07 21:28:38"
+    (time 1712539718)
+    (color (color-rgba 1 0 0 1))
+    (transparency-threshold 0)
+    (opacity-threshold 1))
+(GimpGegl-gegl-color-to-alpha-config "2024-04-01 08:00:17"
+    (time 1711972817)
+    (color (color-rgba 0.98431384563446045 0.77647072076797485 0.7450982928276062 1))
+    (transparency-threshold 0)
+    (opacity-threshold 1))
+(GimpGegl-gegl-color-to-alpha-config "2024-03-01 20:26:17"
+    (time 1709342777)
+    (color (color-rgba 0.96820235252380371 0.98432087898254395 0.98693060874938965 1))
+    (transparency-threshold 0)
+    (opacity-threshold 1))
+(GimpGegl-gegl-color-to-alpha-config "2024-03-01 20:24:04"
+    (time 1709342644)
+    (color (color-rgba 0.98149120807647705 0.98415601253509521 0.98809778690338135 1))
+    (transparency-threshold 0)
+    (opacity-threshold 1))
+
+# end of settings

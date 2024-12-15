@@ -1,0 +1,11 @@
+# GIMP gimp-perspective-clone-tool options
+
+(background (color-rgb 1 1 0.93333333333333335))
+(brush "1. Pixel")
+(dynamics "Dynamics Off")
+(pattern "Stripes")
+(palette "Plasma")
+(brush-size 6)
+(brush-spacing 0.20000000000000001)
+
+# end of gimp-perspective-clone-tool options

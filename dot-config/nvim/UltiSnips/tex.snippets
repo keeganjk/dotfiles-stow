@@ -1,0 +1,382 @@
+# Include this code block at the top of a *.snippets file...
+# ----------------------------- #
+global !p
+def math():
+  return vim.eval('vimtex#syntax#in_mathzone()') == '1'
+endglobal
+
+#
+# META
+#
+
+# Begin a generic environment
+snippet be
+\begin{$1}
+	$2
+\end{$1}
+$0
+endsnippet
+
+# Begin frame (beamer)
+snippet bff
+\begin{frame}
+	$1
+\end{frame}
+$0
+endsnippet
+
+# Begin frame (beamer), with title
+snippet bft
+\begin{frame}
+\frametitle{$1}
+	$2
+\end{frame}
+$0
+endsnippet
+
+snippet s
+\section{$1}$0
+endsnippet
+
+snippet ss
+\subsection{$1}$0
+endsnippet
+
+snippet sss
+\subsubsection{$1}$0
+endsnippet
+
+# Begin an itemized, unordered list
+snippet ll
+\begin{itemize}
+	\item $1
+\end{itemize}
+$0
+endsnippet
+
+# Begin an enumerated list
+snippet ee
+\begin{enumerate}
+	\item $1
+\end{enumerate}
+$0
+endsnippet
+
+# Begin an enumerated list with option with the `enumerate' package for custom number format
+snippet eee
+\begin{enumerate}[$1]
+	\item $2
+\end{enumerate}
+$0
+endsnippet
+
+# Add an item
+snippet i
+\item $0
+endsnippet
+
+#
+# TEXT/FONTS
+#
+
+# Typewriter/monospace font
+snippet tt
+\texttt{${1:${VISUAL:}}}$0
+endsnippet
+
+# Bold font
+snippet bb
+\textbf{${1:${VISUAL:}}}$0
+endsnippet
+
+# Italic font
+snippet ii
+\textit{${1:${VISUAL:}}}$0
+endsnippet
+
+# Italic font
+snippet em
+\emph{${1:${VISUAL:}}}$0
+endsnippet
+
+# Right arrow (text)
+snippet >
+\textrightarrow\ 
+endsnippet
+
+# Parenthetical citation
+snippet )_
+\parencite[$1]{$2}$0
+endsnippet
+
+# In-text citation
+snippet ]\
+\textcite[$1]{$2}$0
+endsnippet
+
+# Label
+snippet la
+\label{$1}$0
+endsnippet
+
+# Reference
+snippet re
+\ref{$1}$0
+endsnippet
+
+# Reference figure
+snippet ref
+\ref{fig:$1}$0
+endsnippet
+
+# Footnote
+snippet ft
+\footnote{ $1 }$0
+endsnippet
+
+# Literal curly braces
+snippet }}
+\\{$1\\}$0
+endsnippet
+
+#
+## GRAPHICS
+#
+
+# Include graphics, a la carte
+snippet gg
+\includegraphics[width=$1\textwidth]{$2}$0
+endsnippet
+
+# Include graphics, centered
+snippet gc
+\begin{center}
+	\includegraphics[width=$1\textwidth]{$2}
+\end{center}
+$0
+endsnippet
+
+# Include graphics, 90% of text width
+snippet gc9
+\begin{center}
+	\includegraphics[width=.9\textwidth]{$1}
+\end{center}
+$0
+endsnippet
+
+# Include figure
+snippet fg
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=$1\textwidth]{$2}
+	\caption{$3}
+	\label{fig:$4}
+\end{figure}
+$0
+endsnippet
+
+#
+# TEXT/MISC
+#
+
+# Make generic table
+snippet TT
+\begin{tabular}{$1}
+	$2
+\end{tabular}
+$0
+endsnippet
+
+# Make generic table, centered
+snippet TTC
+\begin{tabular}{$1}
+	$2
+\end{tabular}
+$0
+endsnippet
+
+# Make horizontal line (for table))
+snippet hh
+\hline
+$0
+endsnippet
+
+#
+# MATH
+#
+
+# Enter inline math
+snippet mm
+\( $1 \)$0
+endsnippet
+
+# Enter display math
+snippet dd
+\[ $1 \]$0
+endsnippet
+
+# Begin a math-align environment
+snippet ma
+\begin{align*}
+	$1
+\end{align*}
+$0
+endsnippet
+
+# Begin a math-gather environment
+snippet mg
+\begin{align*}
+	$1
+\end{align*}
+$0
+endsnippet
+
+# Fractions
+#context "math()"
+snippet ff
+\frac{$1}{$2}$0
+endsnippet
+
+# Fractions
+#context "math()"
+snippet ol
+\overline{$1}$0
+endsnippet
+
+# Subscript
+#context "math()"
+snippet sub
+$1_{$2}$0
+endsnippet
+
+# Superscript
+#context "math()"
+snippet sup
+$1^{$2}$0
+endsnippet
+
+# Logical OR
+#context "math()"
+snippet VV
+\lor $1
+endsnippet
+
+# Logical AND
+#context "math()"
+snippet AA
+\land $1
+endsnippet
+
+# Math sans-serif font
+#context "math()"
+snippet sf
+\mathsf{$1}$0
+endsnippet
+
+# Math bold font
+#context "math()"
+snippet bf
+\mathbf{$1}$0
+endsnippet
+
+# Math mode text
+#context "math()"
+snippet mtt
+\text{$1}$0
+endsnippet
+
+# Overline
+#context "math()"
+snippet oo
+\overline{$1}$0
+endsnippet
+
+# Right arrow (math)
+#context "math()"
+snippet m>
+\rightarrow
+endsnippet
+
+# Multiplication times
+#context "math()"
+snippet xx
+\times
+endsnippet
+
+# Multiplication dot
+#context "math()"
+snippet ..
+\cdot $0
+endsnippet
+
+# Ellipses
+#context "math()"
+snippet ...
+\ldots
+endsnippet
+
+# Center ellipses
+#context "math()"
+snippet c...
+\cdots $0
+endsnippet
+
+# Greater than or equal to
+#context "math()"
+snippet >>
+\geq
+endsnippet
+
+# Less than or equal to
+#context "math()"
+snippet <<
+\leq
+endsnippet
+
+# Math calligraphy
+#context "math()"
+snippet mc
+\mathcal{$1}$0
+endsnippet
+
+# Math fraktur
+#context "math()"
+snippet mf
+\mathfrak{$1}$0
+endsnippet
+
+# Math blackboard bold
+#context "math()"
+snippet mb
+\mathbb{$1}$0
+endsnippet
+
+# Math literal curly braces
+#context "math()"
+snippet {{ "automatic curly brace pair" A
+\{$1\}$0
+endsnippet
+
+# Math blackboard bold
+#context "math()"
+snippet gl
+\lambda $0
+endsnippet
+
+# Empty set
+#context "math()"
+snippet 00
+\emptyset
+endsnippet
+
+# Union
+#context "math()"
+snippet U
+\cup
+endsnippet
+
+# Intersection
+#context "math()"
+snippet I
+\cap
+endsnippet

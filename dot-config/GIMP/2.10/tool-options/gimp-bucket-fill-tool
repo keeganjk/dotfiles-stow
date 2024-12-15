@@ -1,0 +1,9 @@
+# GIMP gimp-bucket-fill-tool options
+
+(background (color-rgb 1 1 0.93333333333333335))
+(pattern "Stripes")
+(brush-size 51)
+(brush-hardness 0.5)
+(threshold 100)
+
+# end of gimp-bucket-fill-tool options

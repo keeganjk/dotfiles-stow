@@ -1,0 +1,129 @@
+# ZSH CONFIG
+# Dependencies:
+#   `mv-trash` custom script in $PATH
+
+# Shell options
+bindkey -v
+bindkey '^n' expand-or-complete
+bindkey '^p' reverse-menu-complete
+setopt NO_autoparamslash
+
+# Environmental variables
+
+## XDG directories
+export XDG_CONFIG_HOME="$HOME/.config";              mkdir -p "$XDG_CONFIG_HOME"
+export XDG_CACHE_HOME=$HOME/.cache;                  mkdir -p "$XDG_CACHE_HOME"
+export XDG_DATA_HOME=$HOME/.local/share;             mkdir -p "$XDG_DATA_HOME"
+export XDG_STATE_HOME=$HOME/.local/state;            mkdir -p "$XDG_STATE_HOME"
+source "${XDG_CONFIG_HOME}/user-dirs.dirs"
+
+## Other directories, personal
+export DOWNLOAD_DIR="$HOME/tmp" # until its cleared :) then dl this line
+export SCREENSHOT_DIR="$XDG_PICTURES_DIR"
+export TRASH_DIR="$HOME/.local/share/Trash/files";   mkdir -p "$TRASH_DIR"
+export BIN_DIR="$HOME/.local/bin";                   mkdir -p "$BIN_DIR"
+export SRC_DIR="$HOME/.local/src";                   mkdir -p "$SRC_DIR"
+
+## Custom directory configurations for applications
+export GOPATH="$XDG_DATA_HOME"/go
+export CARGO_HOME="$XDG_DATA_HOME"/cargo
+export WGETRC="$XDG_CONFIG_HOME/wgetrc"
+export XINITRC="$XDG_CONFIG_HOME"/X11/xinitrc
+export XSERVERRC="$XDG_CONFIG_HOME"/X11/xserverrc
+
+## Shell
+export PATH=~/bin:~/.local/bin:$PATH
+export PS1='%m:%~%# '
+
+## Applications
+export GTK_THEME=Adwaita:light
+export XMODIFIERS=@im=fcitx
+export GTK_IM_MODULE=fcitx
+export QT_IM_MODULE=fcitx
+export VISUAL=nvim
+export EDITOR='nvim -e'
+export PAGER=less
+export TERMCMD=st
+export LAPTOP=1
+export BAR=slstatus
+export PRIMARY_DISPLAY="$(xrandr | grep connected | head -n1 | sed 's/\s.*//g')"
+which nsxiv >/dev/null && \
+	export VIEWER=nsxiv || export VIEWER=sxiv
+
+# General/meta terminal commands
+alias xa='xargs '
+alias xargs='xargs '
+alias xo='xdg-open'
+alias xxo='xargs xdg-open'
+alias ssf='setsid -f'
+alias c='clear'
+alias h='history'
+alias ht='history | tail'
+alias rsrc='source ~/.zshrc'
+alias ta='tmux a'
+alias tat='tmux a -t'
+alias tls='tmux ls'
+alias tn='tmux new -s'
+
+# Accessing my own files
+alias cdbin="cd $EXEC_DIR"
+alias cdsrc="cd $SRC_DIR"
+alias cdtrash="cd $TRASH_DIR"
+
+# Listing
+alias cls='clear; ls'
+alias la='ls -a'
+alias lla='ls -la'
+alias ls='ls --color=always'
+alias lgi='ls | grep -i'
+
+# Searching
+alias gi='grep -i'
+alias gle='grep -l -e'
+alias gne='grep -n -e'
+alias grep='grep --color=auto'
+alias pgle='pdfgrep -l -e'
+alias pgne='pdfgrep -n -e'
+alias fcd='cd "$(find * -type d | fzf)"'
+
+# Admin
+alias s='systemctl'
+alias j='journalctl'
+alias jxe='journalctl -xe'
+
+# Management
+alias rm='mv-trash'
+
+# Programs
+alias xf="setsid -f xdg-open"
+alias i="$VIEWER"
+alias imgf="setsid -f $VIEWER"
+alias lo='libreoffice'
+alias lof='setsid -f libreoffice'
+alias stf='setsid -f st 2>/dev/null'
+alias z='zathura'
+alias zf='zathura --fork'
+alias wget='wget --hsts-file="$XDG_CACHE_HOME/wget-hsts"' # alias to not pollute $HOME
+
+# User/media
+alias pmx=pulsemixer
+alias sx='xdg-open ~/tmp/sx/*'
+alias ytfzf='ytfzf --ii=https://invidious.einfachzocken.eu'
+alias mpa="mpv --no-video --untimed --term-playing-msg='Title: ${media-title}'"
+
+# Text
+alias nv=nvim
+alias vim=nvim
+alias emacs='emacsclient -nc'
+alias e='emacsclient -nc'
+alias dv='$VISUAL $(date +"%G-%m-%d")'
+alias vc='${VISUAL} ~/.config/'
+
+# Developer
+alias cm='clear; make'
+alias gawr='git apply --whitespace=fix --reject'
+
+# Crypto
+alias xmr='monero-wallet-cli --config-file $XDG_CONFIG_HOME/monero-project/monerod.conf'
+#alias monerod='monerod --data-dir /media/ssd1/crypto/xmr/data'
+alias monerod='monerod --data-dir /media/hdd1/bitmonero'

@@ -1,0 +1,10 @@
+# GIMP gimp-vector-tool options
+
+(background (color-rgb 1 1 0.93333333333333335))
+(brush "1. Pixel")
+(dynamics "Dynamics Off")
+(pattern "Stripes")
+(gradient "FG to BG (RGB)")
+(palette "Plasma")
+
+# end of gimp-vector-tool options

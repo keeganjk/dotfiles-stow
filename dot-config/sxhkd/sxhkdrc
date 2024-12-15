@@ -1,0 +1,276 @@
+# TODO: make intercompatible between shells, e.g. change $() to `` ???
+# TODO: make ~ instead of /home/user work; it doesn't in current state,
+#       particularly with FILENAME thing (i.e. change it to $HOME)
+# TODO: modularize into separate files
+
+########
+# META #
+########
+
+# Reload sxhkd config
+# should make a way to notify/give feedback
+super + alt + space
+	pkill -USR1 -x sxhkd && printf "# Last loaded $(date)\n" >> "${HOME}/.config/sxhkd/sxhkdrc"
+
+# Edit sxhkd config
+super + alt + ctrl + space
+	st-floating -e nvim /home/user/.config/sxhkd/sxhkdrc || \
+	$TERMCMD -e nvim /home/user/.config/sxhkd/sxhkdrc
+
+#########
+# MEDIA #
+#########
+
+#
+### Audio
+#
+
+# Toggle mute
+XF86AudioMute
+    pactl set-sink-mute @DEFAULT_SINK@ toggle
+
+# Toggle mic mute
+XF86AudioMicMute
+    pactl set-source-mute @DEFAULT_SOURCE@ toggle
+
+# Change volume
+XF86Audio{Raise,Lower}Volume
+    pactl set-sink-volume @DEFAULT_SINK@ {+,-}1%
+
+# Change volume, more
+shift + XF86Audio{Raise,Lower}Volume
+    pactl set-sink-volume @DEFAULT_SINK@ {+,-}5%
+
+# Change volume, even more
+ctrl + shift + XF86Audio{Raise,Lower}Volume
+    pactl set-sink-volume @DEFAULT_SINK@ {+,-}10%
+
+#
+## Brightness
+#
+
+# Change brightness
+XF86MonBrightness{Up,Down}
+    brightnessctl set {+10%,10%-}
+
+# Change brightness, but rather with gamma
+shift + XF86MonBrightness{Up,Down}
+    xrandr --output $PRIMARY_DISPLAY --brightness {1.5,1}
+
+# Change brightness, but with even more gamma
+ctrl + shift + XF86MonBrightness{Up,Down}
+    xrandr --output $PRIMARY_DISPLAY --brightness {2,1}
+
+#
+### Screenshots
+#
+
+# Copy full-screen screenshot to clipboard
+Print
+	printf "${SCREENSHOT_DIR}/screenshot--$(date +"%Y-%m-%d--%H-%M-%S").png" > /tmp/FILENAME && \
+	FILENAME=`cat /tmp/FILENAME` && \
+	maim -u $FILENAME && \
+	xclip -selection clipboard -t image/png -i $FILENAME
+
+# Copy screenshot of selection to clipboard
+ctrl + Print
+	printf "${SCREENSHOT_DIR}/screenshot--$(date +"%Y-%m-%d--%H-%M-%S").png" > /tmp/FILENAME && \
+	FILENAME=`cat /tmp/FILENAME` && \
+	maim -u -s $FILENAME && \
+	xclip -selection clipboard -t image/png -i $FILENAME
+
+# Open full-screen screenshot to Gimp and then copy to clipboard
+alt + Print
+	printf "${SCREENSHOT_DIR}/screenshot--$(date +"%Y-%m-%d--%H-%M-%S").png" > /tmp/FILENAME && \
+	FILENAME=`cat /tmp/FILENAME` && \
+	maim -u $FILENAME && gimp $FILENAME; \
+	xclip -selection clipboard -t image/png -i $FILENAME
+
+# Open screenshot of selection to Gimp and then copy to clipboard
+alt + ctrl + Print
+	printf "${SCREENSHOT_DIR}/screenshot--$(date +"%Y-%m-%d--%H-%M-%S").png" > /tmp/FILENAME && \
+	FILENAME=`cat /tmp/FILENAME` && \
+	maim -u -s $FILENAME && gimp $FILENAME; \
+	xclip -selection clipboard -t image/png -i $FILENAME
+
+# View selected screenshot in sxiv
+super + ctrl + Print
+	printf "${SCREENSHOT_DIR}/screenshot--$(date +"%Y-%m-%d--%H-%M-%S").png" > /tmp/FILENAME && \
+	FILENAME=`cat /tmp/FILENAME` && \
+	maim -u -s $FILENAME && $VIEWER $FILENAME; \
+	xclip -selection clipboard -t image/png -i $FILENAME
+
+######
+# WM #
+######
+
+# Toggle scratchpad
+super + alt + Return
+	scr
+
+# Reload statusbar
+super + ctrl + b
+	pkill ${BAR}; ${BAR} &
+
+# Lock screen
+super + x
+	slock
+
+#########
+# INPUT #
+#########
+
+# Simulate middle click
+super + ctrl + button3
+	sleep .1; xdotool click 2
+
+# Load keyboard in US layout with caps and esc swapped and Alt_R as compose
+super + ctrl + k
+	setxkbmap -layout us -option caps:swapescape -option compose:ralt
+
+# Load keyboard in US layout, default configuration
+super + ctrl + alt + k
+	setxkbmap -layout us -option ''
+
+# Disable touchpad
+super + alt + t
+	xinput list | grep Synaptics | sed 's/.*id=//; s/\s.*//g' | xargs xinput disable
+
+# Enable touchpad
+super + alt + control + t
+	xinput list | grep Synaptics | sed 's/.*id=//; s/\s.*//g' | xargs xinput enable
+
+############
+# PROGRAMS #
+############
+
+#
+## Editors
+#
+
+# Vim
+super + alt + v
+	$TERMCMD -e vim
+
+# Emacs
+super + alt + e
+	emacsclient -nc
+
+# Emacs reload
+super + alt + ctrl + e
+	emacsclient -e '(save-buffers-kill-emacs)'; emacs --daemon
+
+#
+## Browsers
+#
+
+# browser-selection script
+super + alt + space
+	browsersel
+
+# Brave
+super + alt + b
+	brave
+
+# Chromium
+super + alt + c
+	chromium
+
+# qutebrowser
+super + alt + q
+	qutebrowser
+
+#
+## Graphical
+#
+
+# Gimp
+super + alt + g
+	gimp
+
+# Open a new 500x500 image in Gimp then copy to clipboard
+super + alt + ctrl + g
+	mkdir -p /tmp/pic; \
+	printf "/tmp/pic/$(date +"%Y-%m-%d_%H-%M-%S").png" > /tmp/FILENAME && \
+	FILENAME=`cat /tmp/FILENAME` && \
+	convert -size 500x500 xc:white PNG24:$FILENAME; gimp $FILENAME && \
+	xclip -selection clipboard -t image/png -i $FILENAME
+
+# Open most recent file in /tmp in Gimp then copy to clipboard
+super + alt + shift + g
+	date > /tmp/myLog; \
+	find /tmp -maxdepth 1 -type f -exec stat -c '%Y %n' \{\} \; | sort -nr | head | awk '\{print $2\}' > /tmp/POTENTIAL_FILES; \
+	echo Enterting loop >> /tmp/myLog; \
+	while read f; do \
+		echo "Trying $f" >> /tmp/myLog; \
+		[ -n "$(file $f | grep 'image data')" ] && printf $f > /tmp/FILENAME && break; \
+	done </tmp/POTENTIAL_FILES; \
+	FILENAME=`cat /tmp/FILENAME` && \
+	gimp $FILENAME && xclip -selection clipboard -t image/png -i $FILENAME
+
+# Copy FILENAME to clipboard (in case you e.g. cannot close GIMP first)
+super + alt + f
+	FILENAME=`cat /tmp/FILENAME` && \
+	xclip -selection clipboard -t image/png -i $FILENAME
+
+######################
+# MISC/USER/UNSORTED #
+######################
+
+# Try to copy a window's directory to clipboard
+super + w
+	xprop | grep '^WM_ICON_NAME' | sed 's/.* = "//; s/"//' | xargs dirname | xclip -selection clipboard
+
+# Edit eud (links for search engines, redirects, etc. across files)
+super + ctrl + e
+	$TERMCMD -e nvim /home/user/bin/eud
+
+# passmenu
+super + alt + p
+	passmenu-otp -l 24
+
+# passmenu
+super + alt + shift + p
+	passmenu-otp --type -l 24
+
+# emoji menu
+super + ctrl + p
+	dmenuunicode
+
+# Next, previous, toggle pause in mpd
+super + ctrl + {n,N,p}
+	mpc {next,prev,toggle}
+
+# Pause all mpv videos
+super + ctrl + alt + p
+	xdotool search --class mpv | xargs -I % xdotool key --window % comma
+
+# Plumb (open) the most recent file in /home/user/tmp
+super + alt + shift + t
+	xdg-open "$(ls -Adtp "$(ls -Adtp /home/user/tmp/* | head -n1)"* | head -n1)"
+
+# Plumb (open) the most recent file in /tmp
+super + alt + ctrl + shift + t
+	xdg-open "$(ls -Adtp /tmp/* | head -n1)"
+
+# Remove ^https?:// from clipboard
+super + alt + h
+	httpstrip
+
+# Change invidious link in clipboard to redirect.invidious.io
+super + alt + i
+	redinv
+
+# Remove excess from end of lines in weechat copy/paste
+super + alt + w
+	weestrip
+# Last loaded Sat Nov 16 04:49:58 PM EST 2024
+# Last loaded Sat Nov 16 04:51:03 PM EST 2024
+# Last loaded Sat Nov 16 04:51:56 PM EST 2024
+# Last loaded Sat Nov 16 04:52:25 PM EST 2024
+# Last loaded Sat Nov 16 04:52:33 PM EST 2024
+# Last loaded Sat Nov 16 04:52:36 PM EST 2024
+# Last loaded Sat Nov 16 04:52:37 PM EST 2024
+# Last loaded Sat Nov 16 04:52:37 PM EST 2024
+# Last loaded Wed Dec 11 01:38:46 PM EST 2024
+# Last loaded Sat Dec 14 05:15:29 PM EST 2024

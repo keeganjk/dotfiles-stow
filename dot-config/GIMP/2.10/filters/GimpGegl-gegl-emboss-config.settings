@@ -1,0 +1,40 @@
+# settings
+
+(GimpGegl-gegl-emboss-config "2024-07-18 17:48:56"
+    (time 1721339336)
+    (type bumpmap)
+    (azimuth 30)
+    (elevation 45)
+    (depth 20))
+(GimpGegl-gegl-emboss-config "2024-03-17 19:55:37"
+    (time 1710719737)
+    (type emboss)
+    (azimuth 360)
+    (elevation 105.39)
+    (depth 8))
+(GimpGegl-gegl-emboss-config "2024-03-11 11:39:09"
+    (time 1710171549)
+    (type emboss)
+    (azimuth 228.34999999999999)
+    (elevation 45)
+    (depth 20))
+(GimpGegl-gegl-emboss-config "2024-02-02 10:22:45"
+    (time 1706887365)
+    (type bumpmap)
+    (azimuth 285.44)
+    (elevation 180)
+    (depth 1))
+(GimpGegl-gegl-emboss-config "2023-11-09 22:16:35"
+    (time 1699586195)
+    (type emboss)
+    (azimuth 187.56999999999999)
+    (elevation 55.299999999999997)
+    (depth 25))
+(GimpGegl-gegl-emboss-config "2023-08-27 18:31:41"
+    (time 1693175501)
+    (type emboss)
+    (azimuth 236.5)
+    (elevation 0)
+    (depth 1))
+
+# end of settings

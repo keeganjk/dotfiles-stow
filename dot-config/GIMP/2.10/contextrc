@@ -1,0 +1,15 @@
+# GIMP user context
+
+(tool "gimp-crop-tool")
+(paint-info "gimp-paintbrush")
+(background (color-rgb 1 1 0.93333333333333335))
+(brush "1. Pixel")
+(dynamics "Dynamics Off")
+(mybrush "100% Opaque")
+(pattern "Stripes")
+(gradient "FG to BG (RGB)")
+(palette "Plasma")
+(font "Monospace")
+(tool-preset "Core Pointer")
+
+# end of user context

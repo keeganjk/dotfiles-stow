@@ -1,0 +1,19 @@
+# settings
+
+(GimpGegl-gegl-edge-config "2024-09-21 21:26:23"
+    (time 1726968383)
+    (algorithm roberts)
+    (amount 10)
+    (border-behavior clamp))
+(GimpGegl-gegl-edge-config "2024-03-11 11:38:43"
+    (time 1710171523)
+    (algorithm prewitt)
+    (amount 2)
+    (border-behavior clamp))
+(GimpGegl-gegl-edge-config "2024-02-12 20:23:03"
+    (time 1707787383)
+    (algorithm sobel)
+    (amount 1)
+    (border-behavior black))
+
+# end of settings

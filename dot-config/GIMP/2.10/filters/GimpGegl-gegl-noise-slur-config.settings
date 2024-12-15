@@ -1,0 +1,9 @@
+# settings
+
+(GimpGegl-gegl-noise-slur-config "2024-07-18 17:49:49"
+    (time 1721339389)
+    (pct-random 50)
+    (repeat 1)
+    (seed 0))
+
+# end of settings

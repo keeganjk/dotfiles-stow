@@ -1,0 +1,11 @@
+setxkbmap -layout us -option caps:swapescape -option compose:ralt
+xinput list | grep Synaptics | sed 's/.*id=//; s/\s.*//g' | xargs xinput disable
+fcitx5 -dr &>>/tmp/fcitx5.log
+sxhkd &
+
+emacs --daemon # can turn this into a systemd unit
+
+picom -b
+slstatus &
+hsetroot -solid '#aaa'
+exec dwm

@@ -1,0 +1,13 @@
+# settings
+
+(GimpGegl-gegl-lens-flare-config "2024-07-25 21:03:41"
+    (time 1721955821)
+    (pos-x 0.71699999999999997)
+    (pos-y 0.52200000000000002))
+(GimpGegl-gegl-lens-flare-config "2024-07-25 21:03:23"
+    (time 1721955803)
+    (gimp-opacity 0.377)
+    (pos-x 0.36399999999999999)
+    (pos-y 0.50700000000000001))
+
+# end of settings
