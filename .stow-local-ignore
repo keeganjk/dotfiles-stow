@@ -1,2 +1,4 @@
 \.git
 stow.*\.sh
+^/README.*
+^/LICENSE.*
